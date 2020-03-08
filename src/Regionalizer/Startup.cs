@@ -28,6 +28,7 @@ namespace Regionalizer
         {
             services.AddControllersWithViews();
             services.AddScoped<IRegionService, RegionService>();
+            services.AddScoped<IMunicipalityService, MunicipalityService>();
 
             services.AddDbContext<RegionalizerDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("RegionalizerDatabase")));
