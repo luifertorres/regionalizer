@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Regionalizer.Entities;
+using Regionalizer.Services;
 
 namespace Regionalizer
 {
@@ -26,6 +27,7 @@ namespace Regionalizer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddScoped<IRegionService, RegionService>();
 
             services.AddDbContext<RegionalizerDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("RegionalizerDatabase")));
