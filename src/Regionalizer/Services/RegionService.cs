@@ -20,7 +20,8 @@ namespace Regionalizer.Services
         public async Task<Region> Get(int id)
         {
             return await _context.Regions
-                .Include(r => r.RegionMunicipalities.Select(rm => rm.Municipality))
+                .Include(r => r.RegionMunicipalities)
+                .ThenInclude(rm => rm.Municipality)
                 .FirstOrDefaultAsync(r => r.RegionId == id);
         }
 
@@ -40,6 +41,11 @@ namespace Regionalizer.Services
         public async Task Update(Region region)
         {
             var regionToUpdate = await _context.Regions.FindAsync(region.RegionId);
+
+            if (regionToUpdate is null)
+            {
+                throw new ArgumentException("Region not found", nameof(region));
+            }
 
             Merge(regionToUpdate, with: region);
             await _context.SaveChangesAsync();
