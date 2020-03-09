@@ -9,7 +9,7 @@ using Regionalizer.Entities;
 namespace Regionalizer.Migrations
 {
     [DbContext(typeof(RegionalizerDbContext))]
-    [Migration("20200308171531_InitialCreate")]
+    [Migration("20200309020814_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,11 +27,11 @@ namespace Regionalizer.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Status")
-                        .HasColumnType("int");
 
                     b.HasKey("MunicipalityId");
 

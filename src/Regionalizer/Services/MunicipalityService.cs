@@ -53,6 +53,7 @@ namespace Regionalizer.Services
         private void Merge(Municipality oldMunicipality, Municipality newMunicipality)
         {
             oldMunicipality.Name = newMunicipality.Name;
+            oldMunicipality.IsActive = newMunicipality.IsActive;
         }
 
         public async Task<Municipality> Remove(int id)

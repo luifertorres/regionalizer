@@ -51,7 +51,7 @@ namespace Regionalizer.Controllers
         // POST: Municipality/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MunicipalityId,Name,Status")] Municipality municipality)
+        public async Task<IActionResult> Create([Bind("MunicipalityId,Name,IsActive")] Municipality municipality)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +80,7 @@ namespace Regionalizer.Controllers
         // POST: Municipality/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MunicipalityId,Name,Status")] Municipality municipality)
+        public async Task<IActionResult> Edit(int id, [Bind("MunicipalityId,Name,IsActive")] Municipality municipality)
         {
             if (id != municipality.MunicipalityId)
             {
