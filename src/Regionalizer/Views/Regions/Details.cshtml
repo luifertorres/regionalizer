@@ -17,6 +17,22 @@
             @Html.DisplayFor(model => model.Name)
         </dd>
     </dl>
+    <dl class="row">
+        <dt class = "col-sm-2">
+            Municipalities
+        </dt>
+        <dd class = "col-sm-10">
+            @foreach (var RegionMunicipality in @Model.RegionMunicipalities)
+            {
+                if (!RegionMunicipality.Municipality.IsActive)
+                {
+                    continue;
+                }
+
+                @Html.DisplayFor(model => RegionMunicipality.Municipality.Name)<br>
+            }
+        </dd>
+    </dl>
 </div>
 <div>
     <a asp-action="Edit" asp-route-id="@Model.RegionId">Edit</a> |
