@@ -11,5 +11,7 @@ namespace Regionalizer.Services
         Task<IEnumerable<Region>> GetAll();
         Task<Region> Remove(int id);
         Task Update(Region region);
+        Task<IEnumerable<Municipality>> GetAllMunicipalities();
+        Task AddMunicipalityToRegion(Region region, int municipalityId);
     }
 }

@@ -65,5 +65,24 @@ namespace Regionalizer.Services
 
             return region;
         }
+
+        public async Task<IEnumerable<Municipality>> GetAllMunicipalities()
+        {
+            return await _context.Municipalities.ToListAsync();
+        }
+
+        public async Task AddMunicipalityToRegion(Region region, int municipalityId)
+        {
+            var regionToUpdate = await Get(region.RegionId);
+            var regionMunicipality = new RegionMunicipality
+            {
+                RegionId = region.RegionId,
+                MunicipalityId = municipalityId
+            };
+
+            regionToUpdate.RegionMunicipalities.Add(regionMunicipality);
+            _context.Regions.Update(regionToUpdate);
+            await _context.SaveChangesAsync();
+        }
     }
 }

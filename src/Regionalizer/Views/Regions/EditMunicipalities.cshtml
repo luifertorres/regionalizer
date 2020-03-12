@@ -1,0 +1,40 @@
+@model Regionalizer.Models.RegionMunicipalitiesViewModel
+
+@{string regionName = Model.Region.Name;}
+
+@{
+    ViewData["Title"] = regionName;
+}
+
+<h1>{regionName} municipalities</h1>
+
+<p>
+    <form asp-action="AddMunicipality">
+        <div class="form-group">
+            <label asp-for="ActiveMunicipalities" class="control-label">Active municipalities</label>
+            <select asp-for="SelectedMunicipality" asp-items="@Model.ActiveMunicipalities"></select>
+            <input type="submit" value="Add to region" class="btn btn-primary" />
+        </div>
+    </form>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Municipalities)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Municipalities) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <a asp-action="RemoveMunicipality" asp-route-id="@item.MunicipalityId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

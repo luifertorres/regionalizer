@@ -1,4 +1,4 @@
-@model Regionalizer.Entities.Region
+@model Regionalizer.Models.RegionMunicipalitiesViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -11,10 +11,10 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Region.Name)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Region.Name)
         </dd>
     </dl>
     <dl class="row">
@@ -22,19 +22,15 @@
             Municipalities
         </dt>
         <dd class = "col-sm-10">
-            @foreach (var RegionMunicipality in @Model.RegionMunicipalities)
-            {
-                if (!RegionMunicipality.Municipality.IsActive)
-                {
-                    continue;
-                }
-
-                @Html.DisplayFor(model => RegionMunicipality.Municipality.Name)<br>
-            }
+@foreach (var item in Model.Municipalities)
+{
+            @Html.DisplayFor(model => item.Name) <br>
+}
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.RegionId">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.Region.RegionId">Edit</a> |
+    <a asp-action="EditMunicipalities" asp-route-id="@Model.Region.RegionId">Edit municipalities</a> |
     <a asp-action="Index">Back to List</a>
 </div>

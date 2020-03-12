@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Regionalizer.Entities;
 using Regionalizer.Services;
+using Regionalizer.Models;
 
 namespace Regionalizer.Controllers
 {
@@ -40,7 +41,12 @@ namespace Regionalizer.Controllers
                 return NotFound();
             }
 
-            return View(region);
+            var regionMunicipalities = new RegionMunicipalitiesViewModel
+            {
+                Region = region
+            };
+
+            return View(regionMunicipalities);
         }
 
         // GET: Regions/Create
@@ -127,6 +133,57 @@ namespace Regionalizer.Controllers
         {
             await _service.Remove(id);
             return RedirectToAction(nameof(Index));
+        }
+
+        // GET: Regions/EditMunicipalities/5
+        public async Task<IActionResult> EditMunicipalities(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var region = await _service.Get(id.Value);
+
+            if (region == null)
+            {
+                return NotFound();
+            }
+
+            var municipalities = await _service.GetAllMunicipalities();
+            var regionMunicipalities = new RegionMunicipalitiesViewModel
+            {
+                Region = region,
+                AllMunicipalities = municipalities
+            };
+
+            return View(regionMunicipalities);
+        }
+
+        // POST: Regions/EditMunicipalities/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AddMunicipality(RegionMunicipalitiesViewModel regionMunicipalities)
+        {
+            var region = regionMunicipalities.Region;
+
+            try
+            {
+                var selected = regionMunicipalities.SelectedMunicipality.Value;
+
+                if (!int.TryParse(selected, out var municipalityId))
+                {
+                    return RedirectToAction(nameof(EditMunicipalities), region.RegionId);
+                }
+
+                await _service.AddMunicipalityToRegion(region, municipalityId);
+            }
+            catch (ArgumentException)
+            {
+                return NotFound();
+            }
+
+            return RedirectToAction(nameof(EditMunicipalities), region.RegionId);
         }
     }
 }
